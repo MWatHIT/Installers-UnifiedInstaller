@@ -49,13 +49,16 @@ readonly VIRTUALENV_DIR=virtualenv-14.0.5
 readonly NEED_XML2="2.7.8"
 readonly NEED_XSLT="1.1.26"
 
-DEBUG_OPTIONS=no
+DEBUG_OPTIONS=yes
 
 # Add message translations below:
 case $LANG in
     # es_*)
     #     . helper_scripts//locales/es/LC_MESSAGES/messages.sh
     #     ;;
+    zh_*)
+        . helper_scripts//locales/cn/LC_MESSAGES/messages.sh
+        ;;
     *)
         # default to English
         . helper_scripts/locales/en/LC_MESSAGES/messages.sh

@@ -7,7 +7,7 @@ WHIPTAIL () {
     scrolltext=""
     title=""
     CHOICES=()
-    backtitle="Plone Unified Installer"
+    backtitle="系统安装器"
     for option; do
         optarg=`expr "x$option" : 'x[^=]*=\(.*\)'`
         case $option in
