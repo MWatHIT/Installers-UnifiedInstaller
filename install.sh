@@ -79,6 +79,8 @@
 # This script is actually just a wrapper to detect bash, and,
 # if available, use it.
 # Capture current working directory for build script
+
+# sed -e 's/\^\M$//g' ./*.sh          #remove ^M
 ORIGIN_PATH=`pwd`
 export ORIGIN_PATH
 # change to directory with script

@@ -57,7 +57,7 @@ def doCommand(command):
 #
 argparser = argparse.ArgumentParser(description=_("Plone instance creation utility"))
 argparser.add_argument('--uidir', required=True)
-argparser.add_argument('--plone_home', required=True)
+argparser.add_argument('--emc_home', required=True)
 argparser.add_argument('--instance_home', default='zinstance')
 argparser.add_argument('--instance_var', default=None)
 argparser.add_argument('--backup_dir', default=None)

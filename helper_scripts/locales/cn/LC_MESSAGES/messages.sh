@@ -27,7 +27,7 @@ USAGE_MESSAGE=\
 
    --target=pathname
      用于明确安装的顶级路径。Plone实例以及Python 将被安装在此目录中。
-     (默认为 $PLONE_HOME)
+     (默认为 $EMCsite_HOME)
 
    --clients=client-count
      利用\"zeo\" 安装法明确应用服务器代码
@@ -98,7 +98,7 @@ CHOOSE_CLIENTS_PROMPT=\
 客户端是存储器/CPU密集型.'
 
 INSTALL_DIR_TITLE="Install Directory"
-INSTALL_DIR_PROMPT='Installation target directory? (Leave empty for ${PLONE_HOME}): '
+INSTALL_DIR_PROMPT='Installation target directory? (Leave empty for ${EMCsite_HOME}): '
 
 PASSWORD_TITLE=Password
 PASSWORD_PROMPT="Pick an administrative password. (Leave empty for random): "
@@ -234,11 +234,11 @@ Installation has failed.
 See the detailed installation log at $INSTALL_LOG
 to determine the cause.'
 
-INSTALLING_NOW='Installing Plone ${FOR_PLONE} at $PLONE_HOME
+INSTALLING_NOW='Installing Plone ${FOR_PLONE} at $EMCsite_HOME
 '
 
 CANNOT_CREATE_HOME='
-Unable to create $PLONE_HOME
+Unable to create $EMCsite_HOME
 Please check rights and pathnames.
 
 Installation has failed.
@@ -285,14 +285,14 @@ BUILDOUT_SUCCESS="Buildout completed"
 INSTALL_COMPLETE='
 ######################  Installation Complete  ######################
 
-Plone successfully installed at $PLONE_HOME
+Plone successfully installed at $EMCsite_HOME
 See $RMFILE
 for startup instructions.
 '
 
 BUILDOUT_SKIPPED_OK='
 Buildout was skipped at your request, but the installation is
-otherwise complete and may be found at $PLONE_HOME
+otherwise complete and may be found at $EMCsite_HOME
 '
 
 NEED_HELP_MSG='
