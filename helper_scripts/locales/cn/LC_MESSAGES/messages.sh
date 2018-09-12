@@ -11,102 +11,94 @@ USAGE_MESSAGE=\
    standalone - 单机安装emc系统
    zeo        - 服务器版安装emc系统
 
-Use sudo (or run as root) for server-mode install.
+   利用 sudo (or run as root) 进行客户模式安装.
 
-Options (see top of install.sh for complete list):
+   选择项 (完整列表详见顶部的install.sh):
 
---with-python=/full/path/to/python-${WANT_PYTHON}
-  Path to the Python-${WANT_PYTHON} that you wish to use with Plone.
-  virtualenv will be used to isolate the install.
+   --with-python=/full/path/to/python-${WANT_PYTHON}
+     利用Plone进入想要的Python-${WANT_PYTHON}路径。
+     利用虚拟环境隔离安装。
 
---build-python
-  If you do not have a suitable Python available, the installer will
-  build one for you if you set this option. Requires Internet access
-  to download Python source.
+   --build-python
+     如果没有可利用的适合的Python,安装者将按你自身的选择建立想要的Python,需要网络连接去下载Python源。
 
---password=InstancePassword
-  If not specified, a random password will be generated.
+   --password=InstancePassword
+     如果没有特殊需求，将生成随机密码。
 
---target=pathname
-  Use to specify top-level path for installs. Plone instances
-  and Python will be built inside this directory
-  (default is $PLONE_HOME)
+   --target=pathname
+     用于明确安装的顶级路径。Plone实例以及Python 将被安装在此目录中。
+     (默认为 $EMCsite_HOME)
 
---clients=client-count
-  Use with the \"zeo\" install method to specify the number of Zope
-  clients you wish to create. Default is 2.
+   --clients=client-count
+     利用\"zeo\" 安装法明确应用服务器代码
+     自定义clients. 默认为 2.
 
---instance=instance-name
-  Use to specify the name of the operating instance to be created.
-  This will be created inside the target directory.
-  Default is \"zinstance\" for standalone, \"zeocluster\" for ZEO.
+   --instance=instance-name
+     用于明确待生成的操作实例名称。这将会在目标目录中生成。
+     默认standalone为 \"zinstance\" , ZEO为\"zeocluster\"。
 
---daemon-user=user-name
-  In a server-mode install, sets the effective user for running the
-  instance. Default is \"plone_daemon\". Ignored for non-server-mode installs.
+   --daemon-user=user-name
+     在客户模式安装时，为正在运行的安装设置有效使用者。
+     默认为 \"plone_daemon\". 忽略无客户模式安装。
 
---owner=owner-name
-  In a server-mode install, sets the overall owner of the installation.
-  Default is \"buildout_user\". This is the user id that should be employed
-  to run buildout or make src or product changes.
-  Ignored for non-server-mode installs.
+   --owner=owner-name
+     在客户模式安装中，设置安装的所有者。
+     默认为\"buildout_user\"。这是用于运行buildout、生成标准要求代码或者产品调整的使用者身份。
 
---group=group-name
-  In a server-mode install, sets the effective group for the daemon and
-  buildout users. Default is \"plone_group\".
-  Ignored for non-server-mode installs.
+   --group=group-name
+     在客户模式安装中，为后台程序和buildout使用者建立有效群。
+     默认为 \"plone_group\"。忽略无客户模式安装。
 
---template=template-name
-  Specifies the buildout.cfg template filename. The template file must
-  be in the ${TEMPLATE_DIR} subdirectory. Defaults to buildout.cfg.
+   --template=template-name
+     明确buildout.cfg的模板文件名. 模板文件必须在 ${TEMPLATE_DIR} 子目录中。
+     默认为buildout.cfg。
 
---static-lxml
-  Forces a static built of libxml2 and libxslt dependencies. Requires
-  Internet access to download components.
+   --static-lxml
+     强制静态安装 libxml2 和 libxslt 管理。需要网络进入下载组件。
 
-Read the top of install.sh for more install options.
+   更多的安装选择项详见顶部的install.sh 。
 '
 
 BAD_BUILD_PYTHON=\
-'Bad argument for --build-python'
+'python构建的参数错误'
 
 BAD_USER_OPTION=\
-'Did you want "--daemon-user" instead of "--user"?'
+'是否用后台程序用户替代当前用户？'
 
 BAD_TEMPLATE=\
-'Unable to find $TEMPLATE or ${TEMPLATE}.cfg in $TEMPLATE_DIR'
+'未能发现在$TEMPLATE_DIR中发现 $TEMPLATE 或者 ${TEMPLATE}.cfg '
 
 NO_METHOD_SELECTED=\
-'No method selected.
-Will use standalone method for convenience, but not run bin/buildout.'
+'没有选定方法。No method selected.
+为了方便，是否使用单机方法，但不运行 bin/buildout？'
 
 CONTRADICTORY_PYTHON_COMMANDS=\
-'--with-python and --build-python may not be employed at the same time.'
+'--with-python 和 --build-python 可能不会同时运行。'
 
 POLITE_GOODBYE=\
 '
-Goodbye for now'
+再见'
 
 WELCOME='欢迎'
 
 DIALOG_WELCOME='
 欢迎使用系统安装器，是否继续使用安装器？您可以使用 --help参数获取命令行信息。'
 
-INSTALL_TYPE_TITLE='Install Type'
-CHOOSE_CONFIG_MSG='Choose a basic configuration.'
+INSTALL_TYPE_TITLE='安装型号'
+CHOOSE_CONFIG_MSG='选择基本配置。'
 # note that # is the choice separator
 INSTALL_TYPE_CHOICES=\
-"Standalone (best for testing/development)#ZEO Cluster (best for production; requires load-balancer setup.)"
+"单机 (适合测试和优化)#ZEO群 (适合生产;需要负载平衡器设置。)"
 
 CLIENT_CHOICES="1#2#3#4#5#6"
-CHOOSE_CLIENTS_TITLE="ZEO Clients"
+CHOOSE_CLIENTS_TITLE="ZEO 客户端"
 CHOOSE_CLIENTS_PROMPT=\
-'How many ZEO clients would you like to create\?
-This is easy to change later.
-Clients are memory/CPU-intensive.'
+'想要创建多少ZEO 客户端\?
+这个之后很好更改.
+客户端是存储器/CPU密集型.'
 
 INSTALL_DIR_TITLE="Install Directory"
-INSTALL_DIR_PROMPT='Installation target directory? (Leave empty for ${PLONE_HOME}): '
+INSTALL_DIR_PROMPT='Installation target directory? (Leave empty for ${EMCsite_HOME}): '
 
 PASSWORD_TITLE=Password
 PASSWORD_PROMPT="Pick an administrative password. (Leave empty for random): "
@@ -242,11 +234,11 @@ Installation has failed.
 See the detailed installation log at $INSTALL_LOG
 to determine the cause.'
 
-INSTALLING_NOW='Installing Plone ${FOR_PLONE} at $PLONE_HOME
+INSTALLING_NOW='Installing Plone ${FOR_PLONE} at $EMCsite_HOME
 '
 
 CANNOT_CREATE_HOME='
-Unable to create $PLONE_HOME
+Unable to create $EMCsite_HOME
 Please check rights and pathnames.
 
 Installation has failed.
@@ -293,14 +285,14 @@ BUILDOUT_SUCCESS="Buildout completed"
 INSTALL_COMPLETE='
 ######################  Installation Complete  ######################
 
-Plone successfully installed at $PLONE_HOME
+Plone successfully installed at $EMCsite_HOME
 See $RMFILE
 for startup instructions.
 '
 
 BUILDOUT_SKIPPED_OK='
 Buildout was skipped at your request, but the installation is
-otherwise complete and may be found at $PLONE_HOME
+otherwise complete and may be found at $EMCsite_HOME
 '
 
 NEED_HELP_MSG='

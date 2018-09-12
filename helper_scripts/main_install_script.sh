@@ -6,27 +6,27 @@
 #
 # Path for server-mode install of Python/Zope/Plone
 if [ `uname` = "Darwin" ]; then
-    PLONE_HOME=/Applications/Plone
+    EMCsite_HOME=/Applications/EMC
 else
-    PLONE_HOME=/opt/plone
+    EMCsite_HOME=/opt/EMC
 fi
 
 # Path options for Non-Root install
 #
 # Path for install of Python/Zope/Plone
-LOCAL_HOME="$HOME/Plone"
+LOCAL_HOME="$HOME/EMC"
 
-# if we create a ZEO cluster, it will go here (inside $PLONE_HOME):
+# if we create a ZEO cluster, it will go here (inside $EMCsite_HOME):
 ZEOCLUSTER_HOME=zeocluster
-# a stand-alone (non-zeo) instance will go here (inside $PLONE_HOME):
+# a stand-alone (non-zeo) instance will go here (inside $EMCsite_HOME):
 RINSTANCE_HOME=zinstance
 
 INSTALL_LXML=no
 
 # default user/group ids for root installs; ignored in non-root.
-DAEMON_USER=plone_daemon
-BUILDOUT_USER=plone_buildout
-PLONE_GROUP=plone_group
+DAEMON_USER=emc_daemon
+BUILDOUT_USER=emc_buildout
+PLONE_GROUP=emc_group
 
 # End of commonly configured options.
 #################################################
@@ -49,7 +49,7 @@ readonly VIRTUALENV_DIR=virtualenv-14.0.5
 readonly NEED_XML2="2.7.8"
 readonly NEED_XSLT="1.1.26"
 
-DEBUG_OPTIONS=yes
+DEBUG_OPTIONS=no
 
 # Add message translations below:
 case $LANG in
@@ -70,7 +70,7 @@ if [ `whoami` = "root" ]; then
 else
     ROOT_INSTALL=0
     # set paths to local versions
-    PLONE_HOME="$LOCAL_HOME"
+    EMCsite_HOME="$LOCAL_HOME"
     DAEMON_USER="$USER"
     BUILDOUT_USER="$USER"
 fi
@@ -141,7 +141,7 @@ do
 
         --target=* | -target=* )
             if [ "$optarg" ]; then
-                PLONE_HOME="$optarg"
+                EMCsite_HOME="$optarg"
             else
                 usage
             fi
@@ -350,7 +350,7 @@ if [ $USE_WHIPTAIL -eq 1 ]; then
         whiptail_goodbye
     fi
     if [ "X$WHIPTAIL_RESULT" != "X" ]; then
-        PLONE_HOME="$WHIPTAIL_RESULT"
+        EMCsite_HOME="$WHIPTAIL_RESULT"
     fi
 
 
@@ -370,7 +370,7 @@ if [ $USE_WHIPTAIL -eq 1 ]; then
         --yesno \
         "$CONTINUE_PROMPT
 install.sh $METHOD \\
-    --target=\"$PLONE_HOME\" $PCHOICE $CCHOICE"
+    --target=\"$EMCsite_HOME\" $PCHOICE $CCHOICE"
     if [ $? -gt 0 ]; then
         whiptail_goodbye
     fi
@@ -456,13 +456,13 @@ fi
 # Begin the process of finding a viable Python or creating one
 # if it can't be found.
 
-if [ -x "$PLONE_HOME/Python-${WANT_PYTHON}/bin/python" ] ; then
+if [ -x "$EMCsite_HOME/Python-${WANT_PYTHON}/bin/python" ] ; then
     # There is a Python that was probably built by the installer;
     # use it.
     HAVE_PYTHON=yes
     if [ "X$WITH_PYTHON" != "X" ]; then
         echo "$IGNORING_WITH_PYTHON"
-        WITH_PYTHON="$PLONE_HOME/Python-${WANT_PYTHON}/bin/python"
+        WITH_PYTHON="$EMCsite_HOME/Python-${WANT_PYTHON}/bin/python"
     fi
     if [ "X$BUILD_PYTHON" = "Xyes" ]; then
         echo "$IGNORING_BUILD_PYTHON"
@@ -642,7 +642,7 @@ echo
 # DEBUG OPTIONS
 if [ "X$DEBUG_OPTIONS" = "Xyes" ]; then
     echo "Installer Variables:"
-    echo "PLONE_HOME=$PLONE_HOME"
+    echo "EMCsite_HOME=$EMCsite_HOME"
     echo "LOCAL_HOME=$LOCAL_HOME"
     echo "ZEOCLUSTER_HOME=$ZEOCLUSTER_HOME"
     echo "RINSTANCE_HOME=$RINSTANCE_HOME"
@@ -656,7 +656,7 @@ if [ "X$DEBUG_OPTIONS" = "Xyes" ]; then
     echo "ONLINE_PACKAGES_DIR=$ONLINE_PACKAGES_DIR"
     echo "HSCRIPTS_DIR=$HSCRIPTS_DIR"
     echo "ROOT_INSTALL=$ROOT_INSTALL"
-    echo "PLONE_HOME=$PLONE_HOME"
+    echo "EMCsite_HOME=$EMCsite_HOME"
     echo "DAEMON_USER=$DAEMON_USER"
     echo "BUILDOUT_USER=$BUILDOUT_USER"
     echo "ORIGIN_PATH=$ORIGIN_PATH"
@@ -730,27 +730,27 @@ fi # if $ROOT_INSTALL
 
 #######################################
 # create plone home
-if [ ! -x "$PLONE_HOME" ]; then
-    mkdir "$PLONE_HOME"
+if [ ! -x "$EMCsite_HOME" ]; then
+    mkdir "$EMCsite_HOME"
     if [ $ROOT_INSTALL -eq 1 ]; then
-        chown "$BUILDOUT_USER:$PLONE_GROUP" "$PLONE_HOME"
-        chmod g+s "$PLONE_HOME"
+        chown "$BUILDOUT_USER:$PLONE_GROUP" "$EMCsite_HOME"
+        chmod g+s "$EMCsite_HOME"
     fi
 
-    # normalize $PLONE_HOME so we can use it in prefixes
-    if [ $? -gt 0 ] || [ ! -x "$PLONE_HOME" ]; then
+    # normalize $EMCsite_HOME so we can use it in prefixes
+    if [ $? -gt 0 ] || [ ! -x "$EMCsite_HOME" ]; then
         eval "echo \"$CANNOT_CREATE_HOME\""
         exit 1
     fi
-    cd "$PLONE_HOME"
-    PLONE_HOME=`pwd`
+    cd "$EMCsite_HOME"
+    EMCsite_HOME=`pwd`
 fi
 
 cd "$CWD"
 
 
-cd "$PLONE_HOME"
-PLONE_HOME=`pwd`
+cd "$EMCsite_HOME"
+EMCsite_HOME=`pwd`
 # More paths
 if [ ! "x$INSTANCE_NAME" = "x" ]; then
     # override instance home
@@ -760,12 +760,12 @@ if [ ! "x$INSTANCE_NAME" = "x" ]; then
         ZEOCLUSTER_HOME=$INSTANCE_NAME
         RINSTANCE_HOME=$INSTANCE_NAME
     else
-        ZEOCLUSTER_HOME=$PLONE_HOME/$INSTANCE_NAME
-        RINSTANCE_HOME=$PLONE_HOME/$INSTANCE_NAME
+        ZEOCLUSTER_HOME=$EMCsite_HOME/$INSTANCE_NAME
+        RINSTANCE_HOME=$EMCsite_HOME/$INSTANCE_NAME
     fi
 else
-    ZEOCLUSTER_HOME=$PLONE_HOME/$ZEOCLUSTER_HOME
-    RINSTANCE_HOME=$PLONE_HOME/$RINSTANCE_HOME
+    ZEOCLUSTER_HOME=$EMCsite_HOME/$ZEOCLUSTER_HOME
+    RINSTANCE_HOME=$EMCsite_HOME/$RINSTANCE_HOME
 fi
 
 # Determine and check instance home
@@ -790,7 +790,7 @@ if [ "X$BUILD_PYTHON" = "Xyes" ]; then
     fi
     cd "$CWD"
 
-    PY_HOME="$PLONE_HOME/Python-${WANT_PYTHON}"
+    PY_HOME="$EMCsite_HOME/Python-${WANT_PYTHON}"
     WITH_PYTHON="${PY_HOME}/bin/python"
     . helper_scripts/build_python.sh
 
@@ -852,18 +852,18 @@ fi
 
 
 # Create the buildout cache
-BUILDOUT_CACHE="$PLONE_HOME/buildout-cache"
-BUILDOUT_DIST="$PLONE_HOME/buildout-cache/downloads/dist"
+BUILDOUT_CACHE="$EMCsite_HOME/buildout-cache"
+BUILDOUT_DIST="$EMCsite_HOME/buildout-cache/downloads/dist"
 if [ -f "${PKG}/buildout-cache.tar.bz2" ]; then
     if [ -x "$BUILDOUT_CACHE" ]; then
         eval "echo \"$FOUND_BUILDOUT_CACHE\""
     else
         eval "echo \"$UNPACKING_BUILDOUT_CACHE\""
-        cd $PLONE_HOME
+        cd $EMCsite_HOME
         untar "${PKG}/buildout-cache.tar.bz2"
         # # compile .pyc files in cache
         # echo "Compiling .py files in egg cache"
-        # "$PY" "$PLONE_HOME"/Python*/lib/python*/compileall.py "$BUILDOUT_CACHE"/eggs > /dev/null 2>&1
+        # "$PY" "$EMCsite_HOME"/Python*/lib/python*/compileall.py "$BUILDOUT_CACHE"/eggs > /dev/null 2>&1
     fi
     if [ ! -x "$BUILDOUT_CACHE"/eggs ]; then
         echo $BUILDOUT_CACHE_UNPACK_FAILED
@@ -885,11 +885,11 @@ fi
 
 
 # copy docs
-if [ -x "$CWD/Plone-docs" ] && [ ! -x "$PLONE_HOME/Plone-docs" ]; then
+if [ -x "$CWD/Plone-docs" ] && [ ! -x "$EMCsite_HOME/Plone-docs" ]; then
     echo "Copying Plone-docs"
-    cp -R "$CWD/Plone-docs" "$PLONE_HOME/Plone-docs"
+    cp -R "$CWD/Plone-docs" "$EMCsite_HOME/Plone-docs"
     if [ $ROOT_INSTALL -eq 1 ]; then
-        chown -R "$BUILDOUT_USER:$PLONE_GROUP" "$PLONE_HOME/Plone-docs"
+        chown -R "$BUILDOUT_USER:$PLONE_GROUP" "$EMCsite_HOME/Plone-docs"
     fi
 fi
 
@@ -899,7 +899,7 @@ cd "$CWD"
 # The main install may be done via sudo (if a root install). If it is,
 # our current directory may become unreachable. So, copy the resources
 # we'll need into a tmp directory inside the install destination.
-WORKDIR="${PLONE_HOME}/tmp"
+WORKDIR="${EMCsite_HOME}/tmp"
 mkdir "$WORKDIR" > /dev/null 2>&1
 cp -R ./buildout_templates "$WORKDIR"
 cp -R ./base_skeleton "$WORKDIR"
@@ -927,7 +927,7 @@ fi
 
 $SUDO "$PY" "$WORKDIR/helper_scripts/create_instance.py" \
     "--uidir=$WORKDIR" \
-    "--plone_home=$PLONE_HOME" \
+    "--emc_home=$EMCsite_HOME" \
     "--instance_home=$INSTANCE_HOME" \
     "--daemon_user=$DAEMON_USER" \
     "--buildout_user=$BUILDOUT_USER" \
@@ -962,7 +962,7 @@ RMFILE="$INSTANCE_HOME/README.html"
 
 #######################
 # Conclude installation
-if [ -d "$PLONE_HOME" ]; then
+if [ -d "$EMCsite_HOME" ]; then
     if [ $SKIP_TOOL_TESTS -eq 0 ]; then
         echo " "
         echo "#####################################################################"
